@@ -16,3 +16,5 @@ RoxygenNote: 7.1.1
 Imports: 
     ggplot2,
     tibble
+URL: https://github.com/moodymudskipper/ggframe
+BugReports: https://github.com/moodymudskipper/ggframe/issues
