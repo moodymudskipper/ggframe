@@ -1,0 +1,67 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# ggframe
+
+*{ggframe}* is a *{ggplot2}* wrapper. A "ggframe" object is a data.frame with
+a "layers" and an "aes" attributes. It has a printing method which prints a plot
+by default.
+
+You cannot do all you can do with *{ggplot2}*, it's just an exploration of some
+ideas. Unlikely to go much further.
+
+Some nice things that you can do more easily than in native *{ggplot2}* : 
+
+* data wrangling on plot data (assuming you use functions that don't destroy attributes, it seems *{dplyr}* function don't, base R functions often do)
+* keep track of the steps that built the plot.
+
+## Installation
+
+You can install the released version of ggframe from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+remotes::install_github("moodymudskipper/ggframe")
+```
+
+## Example
+
+```{r}
+library(dplyr, warn.conflicts = FALSE)
+library(ggplot2) # needs to be attached, geoms etc can come from other packages too
+library(ggframe)
+
+iris %>%
+  map_aes(Petal.Length, Petal.Width, color = Species) %>%
+  geom("point") 
+
+iris %>%
+  map_aes(Petal.Length, Petal.Width, color = Species) %>%
+  geom("point") %>%
+  filter(Species != "versicolor")
+
+iris %>%
+  map_aes(Petal.Length, Petal.Width, color = Species) %>%
+  geom("point") %>%
+  slice_sample(n = 15) %>%
+  print(plot = FALSE)
+
+
+iris %>%
+  map_aes(Petal.Length, Petal.Width, color = Species) %>%
+  geom("point") %>%
+  set_coord("fixed") %>%
+  set_theme("classic") %>%
+  set_scale("color_viridis_d")
+```
