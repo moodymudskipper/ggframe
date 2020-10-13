@@ -4,14 +4,14 @@
 \alias{set_theme}
 \title{set theme}
 \usage{
-set_theme(data, theme, ...)
+set_theme(.data, theme, ...)
 }
 \arguments{
-\item{data}{data.frame or ggframe}
+\item{.data}{data.frame or ggframe}
 
-\item{...}{passed to \verb{geom_<geom>()}}
+\item{theme}{a string so that \verb{theme_<theme>} will be called}
 
-\item{geom}{a string so that \verb{geom_<geom>} will be called}
+\item{...}{passed to \verb{theme_<theme>()}}
 }
 \description{
 set theme

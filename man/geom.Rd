@@ -4,10 +4,10 @@
 \alias{geom}
 \title{Add a geom}
 \usage{
-geom(data, geom, ...)
+geom(.data, geom, ...)
 }
 \arguments{
-\item{data}{data.frame or ggframe}
+\item{.data}{data.frame or ggframe}
 
 \item{geom}{a string so that \verb{geom_<geom>} will be called}
 

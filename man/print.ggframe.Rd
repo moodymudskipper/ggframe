@@ -4,15 +4,14 @@
 \alias{print.ggframe}
 \title{print a ggframe}
 \usage{
-\method{print}{ggframe}(x, plot = TRUE)
+\method{print}{ggframe}(x, plot = TRUE, ...)
 }
 \arguments{
 \item{x}{x}
 
 \item{plot}{whether to plot or print data.frame and attributes}
-}
-\value{
 
+\item{...}{for compatibility with other methods}
 }
 \description{
 print a ggframe

@@ -4,14 +4,14 @@
 \alias{set_coord}
 \title{set coord}
 \usage{
-set_coord(data, coord, ...)
+set_coord(.data, coord, ...)
 }
 \arguments{
-\item{data}{data.frame or ggframe}
+\item{.data}{data.frame or ggframe}
 
-\item{...}{passed to \verb{geom_<geom>()}}
+\item{coord}{a string so that \verb{coord_<coord>} will be called}
 
-\item{geom}{a string so that \verb{geom_<geom>} will be called}
+\item{...}{passed to \verb{coord_<coord>()}}
 }
 \description{
 set coord

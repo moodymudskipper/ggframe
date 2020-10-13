@@ -16,52 +16,106 @@ knitr::opts_chunk$set(
 # ggframe
 
 *{ggframe}* is a *{ggplot2}* wrapper. A "ggframe" object is a data.frame with
-a "layers" and an "aes" attributes. It has a printing method which prints a plot
-by default.
+a "layers" and an "aes" attributes. It has a printing method which plots
+by default, but print with `plot = FALSE` and you'll print the data, aesthetics
+and layers.
 
 You cannot do all you can do with *{ggplot2}*, it's just an exploration of some
 ideas. Unlikely to go much further.
 
 Some nice things that you can do more easily than in native *{ggplot2}* : 
 
-* data wrangling on plot data (assuming you use functions that don't destroy attributes, it seems *{dplyr}* function don't, base R functions often do)
+* data wrangling on plot data (assuming you use functions that don't drop attributes, 
+it seems *{dplyr}* functions don't, base R functions often do)
 * keep track of the steps that built the plot.
 
 ## Installation
 
-You can install the released version of ggframe from [CRAN](https://CRAN.R-project.org) with:
+Install with:
 
 ``` r
 remotes::install_github("moodymudskipper/ggframe")
 ```
+## Functions
 
-## Example
+`map_aes()` sets an `aes` attribute.
+
+`geom()`, `facet()`, `set_labs`, `set_coord()`, `set_theme()`, `set_scale()` 
+and `set_guide()` are quick and dirty wrappers that
+add the relevant plot building call to the `layer` attribute, 
+I suppose a more serious version of the package would provide a wrapper for all
+relevant *{ggplot2}* functions, with explicit arguments rather than just `...`. 
+One advantage here is that it works with other packages extending *{ggplot2}*.
+
+`as_ggplot()` converts a ggframe object to a standard ggplot object.
+
+## Examples
 
 ```{r}
 library(dplyr, warn.conflicts = FALSE)
 library(ggplot2) # needs to be attached, geoms etc can come from other packages too
 library(ggframe)
 
+# fast to type for a quick plot 
+iris %>%
+  geom("point", aes(Petal.Length, Petal.Width, color = Species)) 
+
+# defining default aes
 iris %>%
   map_aes(Petal.Length, Petal.Width, color = Species) %>%
   geom("point") 
 
+# wrangle the data after the layer definitions
 iris %>%
   map_aes(Petal.Length, Petal.Width, color = Species) %>%
   geom("point") %>%
   filter(Species != "versicolor")
 
+# print data, aesthetics and layers
 iris %>%
   map_aes(Petal.Length, Petal.Width, color = Species) %>%
   geom("point") %>%
   slice_sample(n = 15) %>%
   print(plot = FALSE)
 
-
+# use set_* functions to leverage other features
 iris %>%
   map_aes(Petal.Length, Petal.Width, color = Species) %>%
   geom("point") %>%
   set_coord("fixed") %>%
   set_theme("classic") %>%
-  set_scale("color_viridis_d")
+  set_scale("color_viridis_d") %>%
+  set_labs(title = "hello")
 ```
+
+In *{ggplot2}* the `ggplot()` functions takes as optional arguments the data and aesthetics
+to be inherited by further layers. It doesn't link explicitly aesthetics to a datasets
+(you can define aesthetics to be inherited, but use a different dataset for every layer) 
+but it's quite rare to start without a default data layer nor default aesthetics.
+
+Moreover when providing custom data for a layer, in my experience we generally don't
+provide completely new data, but a transformation of the main data. Indeed the `data`
+argument of geoms can be a function or formula to be applied on the main data.
+
+It works quite nicely here:
+
+```{r}
+iris %>%
+  map_aes(Petal.Length, Petal.Width) %>%
+  geom("point", data = head, color = "blue") %>%
+  geom("point", data = tail, color = "red")
+```
+
+Thanks to the fact that `ggplot2::ggplot_build()` is generic and called by
+`layer_data()`, `layer_scales()` and `layer_grob()`, we could make those
+work directly on ggframe objects :
+
+```{r}
+# leverage layer_data easily
+iris %>%
+  map_aes(Petal.Length, Petal.Width) %>%
+  geom("point", data = head, color = "blue") %>%
+  geom("point", data = tail, color = "red") %>%
+  layer_data(2)
+```
+

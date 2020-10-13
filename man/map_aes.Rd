@@ -4,19 +4,16 @@
 \alias{map_aes}
 \title{Map aesthetics}
 \usage{
-map_aes(data, x, y, ...)
+map_aes(.data, x, y, ...)
 }
 \arguments{
-\item{data}{data}
+\item{.data}{data}
 
 \item{x}{x}
 
 \item{y}{y}
 
 \item{...}{...}
-}
-\value{
-
 }
 \description{
 Map aesthetics

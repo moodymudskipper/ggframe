@@ -4,14 +4,14 @@
 \alias{set_scale}
 \title{set scale}
 \usage{
-set_scale(data, scale, ...)
+set_scale(.data, scale, ...)
 }
 \arguments{
-\item{data}{data.frame or ggframe}
+\item{.data}{data.frame or ggframe}
 
-\item{...}{passed to \verb{geom_<geom>()}}
+\item{scale}{a string so that \verb{scale_<scale>} will be called}
 
-\item{geom}{a string so that \verb{geom_<geom>} will be called}
+\item{...}{passed to \verb{scale_<scale>()}}
 }
 \description{
 set scale
